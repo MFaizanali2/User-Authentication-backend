@@ -34,6 +34,16 @@ app.get("/register", (req, res) => {
   res.render("register.ejs", { url: null });
 });
 
+const storage = multer.diskStorage({
+  //   destination: "./public/uploads",
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const PORT = process.env.PORT
 
 app.listen(PORT, (req, res)=>{
